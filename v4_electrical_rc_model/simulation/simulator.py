@@ -393,6 +393,24 @@ class MultiRateSimulator:
                         * (u_current[0] + u_current[1] + u_current[2])
                         * tp.dt_mpc
                     )
+
+                    # Regulation delivery penalty: if SOC is too close
+                    # to limits, the battery cannot deliver regulation
+                    # and pays a penalty instead of earning revenue.
+                    soc_now = soc_true[sim_step]
+                    if u_current[2] > 0.1:
+                        can_deliver = (
+                            soc_now > bp.SOC_min + ep.reg_soc_margin
+                            and soc_now < bp.SOC_max - ep.reg_soc_margin
+                        )
+                        if not can_deliver:
+                            r_profit = (
+                                -ep.reg_penalty_mult
+                                * price_r
+                                * u_current[2]
+                                * dt_h
+                            )
+
                     cum_profit += e_profit + r_profit - d_cost
                     cum_profit_arr[mpc_idx] = cum_profit
                     energy_profit_arr[mpc_idx] = e_profit

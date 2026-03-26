@@ -120,7 +120,7 @@
     <div style="font-size:22px;color:var(--dim);padding:0 5px">&#x27A1;</div>
     <div class="c" style="text-align:center;min-width:180px;flex:1;max-width:210px"><div style="font-size:22px;margin-bottom:6px">&#x1F50B;</div><div style="font-size:12px;font-weight:700;color:var(--green)">Battery Pack</div><div style="font-size:10px;color:var(--dim);margin-top:3px">Multi-cell w/ balancing</div></div>
   </div>
-  <div class="hl bl"><div style="font-size:13px;color:var(--t2);line-height:1.7"><strong style="color:var(--t1)">Key insight:</strong> It won't chase a trade that costs more in wear than it earns in revenue.</div></div>
+  <div class="hl bl"><div style="font-size:13px;color:var(--t2);line-height:1.7"><strong style="color:var(--t1)">Key insight:</strong> It won't chase a trade that costs more in wear than it earns in revenue. And it won't commit to frequency regulation it can't deliver &mdash; if the battery's charge level is too close to its limits, the scheduler automatically reduces its regulation commitment to avoid non-delivery penalties.</div></div>
   <div class="ft">Arpedon &middot; Confidential</div><div class="sn">03</div>
 </section>
 
@@ -203,13 +203,14 @@
         <li>Uses only a third of the annual wear budget — extends asset life by years</li>
         <li>Prevents the weakest cell from dragging down the whole pack</li>
         <li>Knows when <em>not</em> to trade — sits out when spreads don't justify the wear</li>
+        <li>Automatically reduces regulation commitment when charge level is near limits — avoids non-delivery penalties</li>
         <li>Recovers automatically if a sensor gives a bad reading</li>
       </ul>
     </div>
     <div>
       <div class="kpi" style="padding:28px;margin-bottom:14px"><div class="kv" style="font-size:52px;color:var(--green)">0</div><div class="kl" style="margin-top:8px">Control Failures</div><div class="ks">across 2,880 real-time decisions</div></div>
       <div class="kpi" style="padding:28px;margin-bottom:14px"><div class="kv" style="font-size:52px;color:var(--glow)">14/14</div><div class="kl" style="margin-top:8px">Stress Tests Passed</div><div class="ks">heat, cold, max power, sensor failure</div></div>
-      <div class="kpi" style="padding:28px"><div class="kv" style="font-size:52px;color:var(--amber)">4</div><div class="kl" style="margin-top:8px">Validated Releases</div><div class="ks">each tested before advancing</div></div>
+      <div class="kpi" style="padding:28px"><div class="kv" style="font-size:52px;color:var(--amber)">4</div><div class="kl" style="margin-top:8px">Validated Releases</div><div class="ks">each gated before advancing</div></div>
     </div>
   </div>
   <div class="ft">Arpedon &middot; Confidential</div><div class="sn">07</div>

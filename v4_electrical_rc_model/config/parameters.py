@@ -193,6 +193,8 @@ class EMSParams:
     n_scenarios: int = 5               # Number of price scenarios
     regulation_fraction: float = 0.3   # Max fraction of P_max for regulation  [-]
     degradation_cost: float = 50.0     # Cost of SOH loss  [$/unit SOH lost]
+    reg_soc_margin: float = 0.05      # SOC margin for regulation delivery  [-]
+    reg_penalty_mult: float = 2.0     # Penalty multiplier for non-delivery  [-]
     terminal_soc_weight: float = 1e4   # Terminal SOC deviation penalty
     terminal_soh_weight: float = 1e4   # Terminal SOH deviation penalty
 

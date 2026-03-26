@@ -72,11 +72,12 @@ CasADi + IPOPT for nonlinear optimization, NumPy for numerics, Matplotlib for vi
 
 | Upcoming | Description |
 |----------|------------|
-| v5 | Unscented Kalman Filter (UKF) |
-| v6 | Online parameter estimation |
-| v7 | Real-time NMPC with ACADOS |
-| v8 | Degradation-aware MPC |
-| v9-v13 | Uncertainty, delays, multi-battery, inverter, market bidding |
+| v5 | Regulation activation & MPC necessity |
+| v6 | Unscented Kalman Filter (UKF) |
+| v7 | Online parameter estimation |
+| v8 | Real-time NMPC with ACADOS |
+| v9 | Degradation-aware MPC |
+| v10-v14 | Uncertainty, delays, multi-battery, inverter, market bidding |
 
 ---
 

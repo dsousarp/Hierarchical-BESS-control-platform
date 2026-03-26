@@ -59,10 +59,9 @@ REG_CSV = PROJECT_ROOT / "data" / "real_prices" / "de_fcr_regulation_2024_q1.csv
 RESULTS_DIR = PROJECT_ROOT.parent / "results"
 
 # ---------------------------------------------------------------------------
-#  Regulation delivery penalty
+#  Regulation delivery penalty — parameters from EMSParams
+#  (reg_soc_margin, reg_penalty_mult)
 # ---------------------------------------------------------------------------
-SOC_REG_MARGIN = 0.05       # Can't deliver if SOC within this of limits
-REG_PENALTY_MULT = 2.0      # Penalty = 2x capacity price for non-delivery
 
 
 # ===========================================================================
@@ -397,11 +396,10 @@ def unified_sim_loop(
             # Regulation delivery penalty
             soc = x_true[0]
             if u_current[2] > 0.1:
-                can_deliver = (soc > bp.SOC_min + SOC_REG_MARGIN
-                               and soc < bp.SOC_max - SOC_REG_MARGIN)
+                can_deliver = (soc > bp.SOC_min + ep.reg_soc_margin
+                               and soc < bp.SOC_max - ep.reg_soc_margin)
                 if not can_deliver:
-                    # Pay penalty instead of earning revenue
-                    r_profit = -REG_PENALTY_MULT * price_r * u_current[2] * dt_h
+                    r_profit = -ep.reg_penalty_mult * price_r * u_current[2] * dt_h
 
             cum_profit += e_profit + r_profit - d_cost
 
@@ -553,7 +551,7 @@ def main() -> None:
     print(f"  Strategies: optimizer, EMS+est, EMS only, rule-based")
     print(f"  Days:       {N_DAYS}")
     print(f"  Scenarios:  forecast = 5 other days (realized NOT in set)")
-    print(f"  Reg penalty: {REG_PENALTY_MULT}x capacity price when SOC near limits")
+    print(f"  Reg penalty: {ep.reg_penalty_mult}x capacity price when SOC near limits")
     print("=" * 70)
     print()
 

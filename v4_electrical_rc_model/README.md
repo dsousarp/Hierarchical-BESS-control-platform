@@ -23,7 +23,9 @@ Terminal voltage `V_term = OCV(SOC) - V_rc1 - V_rc2 - I*R0` is now explicitly mo
 | **Simulation dt** | 1 s | 5 s (RK4-stable for tau_min=10 s) |
 | **Stress tests** | 10 tests | 14 tests (adds OCV, RC step response, solver robustness, voltage limits) |
 
-**Unchanged**: EMS (3-state hourly planning), pack architecture (4 cells, active balancing), price generation.
+**Unchanged**: Pack architecture (4 cells, active balancing), price generation.
+
+**EMS enhancement**: Regulation delivery feasibility constraints — P_reg is automatically reduced when SOC approaches limits (insufficient headroom for symmetric up/down response). Prevents infeasible capacity commitments and corresponding non-delivery penalties.
 
 ## 2RC Equivalent Circuit Model
 
@@ -106,7 +108,7 @@ v4_electrical_rc_model/
 ├── models/
 │   └── battery_model.py      # 5-state CasADi + numpy dynamics, OCV polynomial, quadratic solver
 ├── ems/
-│   └── economic_ems.py       # 3-state hourly planning (unchanged from v3)
+│   └── economic_ems.py       # 3-state hourly planning + regulation delivery constraints
 ├── mpc/
 │   └── tracking_mpc.py       # 3-state MPC with OCV-based current + soft voltage constraints
 ├── estimation/

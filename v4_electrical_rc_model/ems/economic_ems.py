@@ -17,7 +17,15 @@ Decision variables per scenario *s*, per time step *k*
 
 Objective
 ---------
-  Maximise   E_s [ energy_revenue + regulation_revenue - degradation_cost ]
+  Maximise   E_s [ energy_revenue + regulation_revenue
+                   - degradation_cost - regulation_delivery_penalty ]
+
+Regulation delivery feasibility
+-------------------------------
+  When SOC is within ``reg_soc_margin`` of its limits, the battery
+  cannot reliably deliver regulation services (insufficient headroom
+  for up/down response).  Linear constraints force P_reg to zero as
+  SOC approaches limits, preventing infeasible capacity commitments.
 
 Non-anticipativity: first-stage decisions agree across all scenarios.
 """
@@ -208,6 +216,20 @@ class EconomicEMS:
             for k in range(N):
                 opti.subject_to(P_chg[s][k] + P_reg[s][k] <= bp.P_max_kw)
                 opti.subject_to(P_dis[s][k] + P_reg[s][k] <= bp.P_max_kw)
+
+            # Regulation delivery feasibility: P_reg must reduce when
+            # SOC approaches limits (insufficient headroom for
+            # symmetric up/down response).  Linear in (P_reg, SOC).
+            P_reg_max = bp.P_max_kw * ep.regulation_fraction
+            for k in range(N):
+                opti.subject_to(
+                    P_reg[s][k] * ep.reg_soc_margin
+                    <= P_reg_max * (SOC[s][k] - bp.SOC_min)
+                )
+                opti.subject_to(
+                    P_reg[s][k] * ep.reg_soc_margin
+                    <= P_reg_max * (bp.SOC_max - SOC[s][k])
+                )
 
             # Accumulate expected cost (minimise negative profit)
             total_obj += float(probabilities[s]) * (-scenario_profit)
